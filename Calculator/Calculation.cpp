@@ -12,6 +12,7 @@
 #include<stack>
 #include<queue>
 #include<sstream>
+#include<iostream>
 
 namespace std {
 
@@ -23,15 +24,48 @@ Calculation::Calculation(queue<string> theQueue)
 void Calculation::trans(queue<string> str)
 {
 	string temp = "";
-	int len = str.size();
-	for(int i = 0; i < len; i++)
+	temp = str.front();
+
+	if(temp == "-")
 	{
+		minus++;
+
+		str.pop();
+		//特判第一个负数
+		if(isdigit(str.front()[0]))
+		{
+			suff.push(str.front());
+			str.pop();
+			suff.push(temp);
+		}
+		//-()的情况
+		else
+		{
+			//标记为-<)
+			str.front() = "<";
+			oper.push(temp);
+		}
+	}
+
+	//遍历中缀表达式队列
+	bool flag = true;
+	bool isminus = true;
+
+	while(!str.empty())
+	{
+		flag = true;
 		//读取队列第一个元素
 		temp = str.front();
 		//若是（，直接入栈
-		if(temp == "(")
+		if(temp == "(" || temp == "<")
 		{
 			oper.push(temp);
+			str.pop();
+			if(isdigit(str.front()[0]))
+			{
+				isminus = false; //不是负数
+			}
+			flag = false;
 		}
 		//若是*或/，直接入栈
 		if(temp == "*"||temp == "/")
@@ -42,53 +76,80 @@ void Calculation::trans(queue<string> str)
 		if(temp == "+")
 		{
 			//考虑到负数情况，所以先做减法
-			if(!oper.empty()&&(oper.top() == "*"||oper.top() == "/"||oper.top() == "-"))
+			while(!oper.empty()&&(oper.top() == "*"||oper.top() == "/"||oper.top() == "-"))
 			{
 				suff.push(oper.top());  //进入后缀运算表达式队列
 				oper.pop();  //弹出栈顶元素
-				oper.push(temp);  //当前元素入栈
 			}
-			else
-			{
-				oper.push(temp);
-			}
+			oper.push(temp);  //当前元素入栈
+
 		}
 		//若是-
 		if(temp == "-")
+		{
+			minus++;
+
+			//括号内有负号的情况
+			if(!oper.empty() && oper.top() == "(")
+			{
+				//负数
+				if(isminus)
 				{
-					//括号内有负数的情况
-					if(!oper.empty() && oper.top() == "(")
-					{
-						suff.push("0");
-					}
-					//若-低于栈顶元素优先级，则栈顶元素出栈后该元素入栈；否则直接入栈
-					if(!oper.empty()&&(oper.top() == "*"||oper.top() == "/"))
-					{
-						suff.push(oper.top());  //进入后缀运算表达式队列
-						oper.pop();  //弹出栈顶元素
-						oper.push(temp);  //当前元素入栈
-					}
-					else
-					{
-						oper.push(temp);
-					}
+					str.pop(); //弹出-号
+					suff.push("0"); //0入队列
+					suff.push(str.front()); //此负数数值入队列
+					suff.push(temp); //-号入队列
 				}
+				//-()
+				else
+				{
+					oper.push(temp);
+				}
+			}
+			//该-号为减法符号
+			else
+			{
+				//若-低于栈顶元素优先级，则栈顶元素出栈后该元素入栈；否则直接入栈
+				while(!oper.empty()&&(oper.top() == "*"||oper.top() == "/"))
+				{
+					suff.push(oper.top());  //进入后缀运算表达式队列
+					oper.pop();  //弹出栈顶元素
+				}
+				oper.push(temp);  //当前元素入栈
+
+			}
+		}
 		//若是），则依次弹出栈顶元素直到遇到（
 		if(temp == ")")
 		{
-			while(oper.top()!="(")
+
+			while(oper.top()!="(" && oper.top()!="<")
 			{
 				suff.push(oper.top());
 				oper.pop();
 			}
-			oper.pop();//弹出（
+
+			if(oper.top() == "<")
+			{
+				oper.pop();//弹出<
+				suff.push(oper.top());//-号入队列
+			}
+
+			oper.pop();
+
+			isminus = true;
+
 		}
 		//若是运算数字，则入队列
 		else if(isdigit(temp[0]))
 		{
 			suff.push(temp);
 		}
-		str.pop();
+
+		if(flag)
+		{
+			str.pop();
+		}
 	}
 	while(!oper.empty())
 	{
@@ -97,11 +158,15 @@ void Calculation::trans(queue<string> str)
 	}
 }
 
-int Calculation::calcu()
+double Calculation::calcu()
 {
-	num.push(resu); //将0压入栈，用以处理负数
+	while(minus--)
+	{
+		num.push(resu); //将0压入栈，用以处理负数
+	}
+
 	stringstream ss;
-	int tempnum;
+	double tempnum;
 
 	while(!suff.empty())
 	{
@@ -134,10 +199,18 @@ int Calculation::calcu()
 		if(temp == "/")
 		{
 			resu = num.top();
-			num.pop();
-			resu = num.top() / resu;
-			num.pop();
-			num.push(resu);
+			if(resu == 0)
+			{
+				cout << "泡泡说除数不能为0"<<endl;
+				return 0;
+			}
+			else
+			{
+				num.pop();
+				resu = num.top() / resu;
+				num.pop();
+				num.push(resu);
+			}
 		}
 		//若为数字字符串，则转化为数字后入栈
 		else if(isdigit(temp[0]))

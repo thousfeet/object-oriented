@@ -35,15 +35,15 @@ int main(int argc, char* argv[])
 	{
 	Scan scan;  //创建Scan对象
 
-	if(strcmp(argv[1],"-a") == 0)
-	{
-		cout << argv[argc-1]<<"= ";
-	}
-	queue<string> q = scan.ToStringQueue(argv[argc-1]);  //获取目标队列
+//	if(strcmp(argv[1],"-a") == 0)
+//	{
+//		cout << argv[argc-1]<<"= ";
+//	}
+//	queue<string> q = scan.ToStringQueue(argv[argc-1]);  //获取目标队列
 
-//	string in;
-//	cin >> in;
-//	queue<string> q = scan.ToStringQueue(in);
+	string in;
+	cin >> in;
+	queue<string> q = scan.ToStringQueue(in);
 
 	Calculation *calculation = new Calculation(q);  //创建Calculation对象
 	calculation->trans(q);  //转化为后缀表达式

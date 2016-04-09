@@ -18,13 +18,14 @@ class Calculation {
 public:
 	queue<string> str;  //传入的字符队列
 	queue<string> suff; //后缀表达式队列
-	stack<int> num;  //运算数字栈
+	stack<double> num;  //运算数字栈
 	stack<string> oper;  //运算符栈
-	int resu = 0; //暂存运算结果
+	double resu = 0; //暂存运算结果
+	int minus = 0; //负号个数
 
 	Calculation(queue<string> theQueue);
 	void trans(queue<string> str); //转化为后缀表达式
-	int calcu();  //计算后缀表达式
+	double calcu();  //计算后缀表达式
 };
 
 }
