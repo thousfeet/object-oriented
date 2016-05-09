@@ -24,9 +24,7 @@ void Print::aPrint(string s,double re)
 
 void Print::fPrint(char *s,double re)
 {
-	ofstream fout(s);
+	ofstream fout(s,ofstream::app);
 	fout << re <<endl;
-	fout << re <<endl;
-//	fout << flush;
 	fout.close();
 }

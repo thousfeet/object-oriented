@@ -27,7 +27,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 
-	Scan *scan = new Scan();  //创建Scan对象
+	Scan *scan = new Scan();
 
 	//---------数字位数大于10时报错----------
 	//------------报错不处理开始-------------
@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
 
 	//-----------计算开始-----------
 	double theResult;
-	Print *print = new Print(); //创建Print对象
+	Print *print = new Print();
 
 	queue<string> q;
 
@@ -86,11 +86,9 @@ int main(int argc, char* argv[])
 			getline(fin,read,'\n');
 
 			q = scan->ToStringQueue(read);  //获取目标队列
-			cout << read<<endl;
-			Calculation *calculation = new Calculation(q);  //创建Calculation对象
+			Calculation *calculation = new Calculation(q);
 			calculation->trans(q);  //转化为后缀表达式
 			theResult = calculation->calcu();
-			cout << theResult<<endl;
 			print->fPrint(argv[3],theResult);//输出结果
 
 			delete(calculation);
@@ -103,7 +101,7 @@ int main(int argc, char* argv[])
 	else
 	{
 		q = scan->ToStringQueue(read);  //获取目标队列
-		Calculation *calculation = new Calculation(q);  //创建Calculation对象
+		Calculation *calculation = new Calculation(q);
 		calculation->trans(q);  //转化为后缀表达式
 		theResult = calculation->calcu();
 
