@@ -3,7 +3,8 @@
   Author: thousfeet
   Date: 2016.03.23
   Function List:
-   	  ∂®“ÂScan¿‡°£
+     queue<string> ToStringQueue(string input);
+	 bool check(string s);
  ***********************************************************/
 #ifndef SCAN_H_
 #define SCAN_H_
@@ -17,6 +18,7 @@ class Scan
 
 public:
 	queue<string> ToStringQueue(string input);
+	bool check(string s);
 
 private:
 	string m_sInput;

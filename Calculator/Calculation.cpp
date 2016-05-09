@@ -1,14 +1,16 @@
  /************************************************************
   FileName: Calculation.cpp
   Author: thousfeet
-  Date: 2016.04.04
+  Date: 2016.03.23
   Function List:
-   	  1.将中缀表达式转化为后缀表达式
-	  2.计算后缀表达式得到最终计算结果
+   	Calculation(queue<string> theQueue);
+	void trans(queue<string> str);
+	double calcu();
  ***********************************************************/
+
 #include "Calculation.h"
 #include<string>
-#include<string.h>
+#include<cstring>
 #include<stack>
 #include<queue>
 #include<sstream>
@@ -16,11 +18,19 @@
 
 namespace std {
 
+
 Calculation::Calculation(queue<string> theQueue)
 {
 	str = theQueue;
 }
 
+/*************************************************
+  Description:
+     将中缀表达式转化为后缀表达式
+  Input: queue<string> str 转化前的中缀表达式队列
+  Output: 无
+  Return: 无
+*************************************************/
 void Calculation::trans(queue<string> str)
 {
 	string temp = "";
@@ -158,6 +168,14 @@ void Calculation::trans(queue<string> str)
 	}
 }
 
+
+/*************************************************
+  Description:
+     计算后缀表达式得到最终计算结果
+  Input: 无
+  Output: 无
+  Return: num.top 表达式的计算结果
+*************************************************/
 double Calculation::calcu()
 {
 	while(minus--)
@@ -171,6 +189,7 @@ double Calculation::calcu()
 	while(!suff.empty())
 	{
 		string temp = suff.front();
+
 		//对栈顶元素进行对应操作运算，运算结果入栈
 		if(temp == "+")
 		{
@@ -219,11 +238,15 @@ double Calculation::calcu()
 			ss >> tempnum;
 			num.push(tempnum);
 			ss.clear();
+			ss.str("");
 		}
 		suff.pop();
 	}
+
+
 	return num.top();
 }
 
-
 }
+
+
