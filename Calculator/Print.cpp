@@ -19,7 +19,7 @@ void Print::nPrint(double re)
 
 void Print::aPrint(string s,double re)
 {
-	cout << s <<"= "<<re;
+	cout << s <<" "<<re;
 }
 
 void Print::fPrint(char *s,double re)
