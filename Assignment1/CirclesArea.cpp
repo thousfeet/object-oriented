@@ -4,5 +4,5 @@ using namespace std;
 
 void area(double radius)
 {
-	cout << M_PI*radius*radius;
+	cout << "所求圆面积为："<<M_PI*radius*radius<<endl;
 }
