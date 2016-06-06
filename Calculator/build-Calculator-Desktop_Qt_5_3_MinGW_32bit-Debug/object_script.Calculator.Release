@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\dialog.o
+./release\fileio.o
+./release\Calculation.o
+./release\Scan.o
+./release\Print.o
+./release\moc_mainwindow.o
+./release\moc_dialog.o
+./release\moc_fileio.o
+);
