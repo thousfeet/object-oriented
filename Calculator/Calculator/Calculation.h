@@ -39,7 +39,7 @@ private:
 	double resu = 0; //暂存运算结果
 	int minus = 0; //负号个数
    Calculation(queue<string> theQueue);
-   void trans(queue<string> str); //杞寲涓哄悗缂�琛ㄨ揪寮�
+   void trans(queue<string> str); //简体中文
    double calcu();  //璁＄畻鍚庣紑琛ㄨ揪寮�
 
 private:
