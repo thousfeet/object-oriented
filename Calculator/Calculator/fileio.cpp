@@ -18,7 +18,7 @@ fileio::fileio(QWidget *parent) :
     connect(ui->inTool,SIGNAL(clicked()),this,SLOT(openFileInView()));
     connect(ui->outTool,SIGNAL(clicked()),this,SLOT(openFileOutView()));
     connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(ioRun()));
-    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(exec()));
+//    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(exec()));
 }
 
 fileio::~fileio()
@@ -62,5 +62,5 @@ void fileio::ioRun()
             cout<<calculation.calcu()<<endl;
          }
      }
-    return;
+    this->exec();
 }
